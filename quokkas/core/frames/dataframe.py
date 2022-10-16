@@ -1,5 +1,5 @@
 """
-This code was draws heavily on the pandas package, in particular,
+This code draws heavily on the pandas package, in particular,
 parts of it were taken from this package:
 https://github.com/pandas-dev/pandas
 

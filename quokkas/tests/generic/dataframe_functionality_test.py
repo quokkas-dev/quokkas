@@ -69,7 +69,6 @@ def test_functions_pipeline():
                      }
 
     for key, value in funcs_to_test.items():
-        print (key)
         if key in ['fillna', 'bfill', 'ffill', 'asfreq', 'interpolate', 'diff', 'shift', 'to_period']:
             df = DataFrame({'a': [10, 20, 30, np.nan, 50],
                             'b': [100, 200, np.nan, 400, 500]},

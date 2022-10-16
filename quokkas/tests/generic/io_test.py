@@ -10,8 +10,6 @@ import numpy as np
 import os
 
 
-
-
 def power(df, n):
     return df ** n
 
