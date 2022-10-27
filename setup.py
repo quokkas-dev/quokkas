@@ -5,7 +5,7 @@ with open('requirements.txt') as input:
 
 setup(
     name='quokkas',
-    version='0.0.1',
+    version='0.0.2',
     description="Data analysis tool that you didn't know you needed",
     author='Ivan Pashkevich, Roman Sorokin',
     author_email='ivan.pashkevich@gmail.com, sorokin.r.v.97@gmail.com',
