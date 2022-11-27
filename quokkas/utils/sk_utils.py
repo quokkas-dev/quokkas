@@ -237,23 +237,17 @@ def _most_frequent(array):
     """
     # Compute the most frequent value in array only
     if array.size > 0:
+        counter = Counter(array)
+        most_frequent_count = counter.most_common(1)[0][1]
+        try:
+            most_frequent_value = min(
+                value
+                for value, count in counter.items()
+                if count == most_frequent_count
+            )
+        except TypeError:
+            most_frequent_value = [value for value, count in counter.items() if count == most_frequent_count][0]
 
-        if array.dtype == object:
-            # scipy.stats.mode is slow with object dtype array.
-            # Python Counter is more efficient
-            counter = Counter(array)
-            most_frequent_count = counter.most_common(1)[0][1]
-            # tie breaking similarly to scipy.stats.mode
-            try:  # min won't work for strings
-                most_frequent_value = min(
-                    value
-                    for value, count in counter.items()
-                    if count == most_frequent_count
-                )
-            except TypeError:
-                most_frequent_value = [value for value, count in counter.items() if count == most_frequent_count][0]
-        else:
-            most_frequent_value = stats.mode(array, nan_policy='omit', keepdims=False)[0]
     else:
         most_frequent_value = 0
 

@@ -304,15 +304,13 @@ def test_asof_pipeline(df, operation):
                                            '2018-02-27 09:02:00',
                                            '2018-02-27 09:03:00',
                                            '2018-02-27 09:04:00',
-                                           '2018-02-27 09:05:00']))
+                                           '2018-02-27 09:05:00']), dtype=int)
     df.map(operation)
     tmp = df.asof(pd.DatetimeIndex(['2018-02-27 09:03:30',
-                                    '2018-02-27 09:04:30']))
-    tmp.map(operation)
-    print(tmp)
-    assert tmp.equals(DataFrame([[0, 300],
-                                 [0, 400]], index=pd.DatetimeIndex(['2018-02-27 09:03:30', '2018-02-27 09:04:30']),
-                                columns=['a', 'b']))
+                                    '2018-02-27 09:04:30'])).astype(int)
+    assert (tmp.values == [[0, 300], [0, 400]]).all()
+    assert (tmp.index == pd.DatetimeIndex(['2018-02-27 09:03:30', '2018-02-27 09:04:30'])).all()
+
     assert len(tmp.pipeline._transformations) == 2
     assert len(df.pipeline._transformations) == 1
 
