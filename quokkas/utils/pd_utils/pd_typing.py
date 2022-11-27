@@ -56,10 +56,8 @@ from typing import (
     Hashable,
     Iterator,
     List,
-    Literal,
     Mapping,
     Optional,
-    Protocol,
     Sequence,
     Tuple,
     Type as type_t,
@@ -210,72 +208,6 @@ PythonFuncType = Callable[[Any], Any]
 AnyStr_cov = TypeVar("AnyStr_cov", str, bytes, covariant=True)
 AnyStr_con = TypeVar("AnyStr_con", str, bytes, contravariant=True)
 
-
-class BaseBuffer(Protocol):
-    @property
-    def mode(self) -> str:
-        # for _get_filepath_or_buffer
-        ...
-
-    def fileno(self) -> int:
-        # for _MMapWrapper
-        ...
-
-    def seek(self, __offset: int, __whence: int = ...) -> int:
-        # with one argument: gzip.GzipFile, bz2.BZ2File
-        # with two arguments: zip.ZipFile, read_sas
-        ...
-
-    def seekable(self) -> bool:
-        # for bz2.BZ2File
-        ...
-
-    def tell(self) -> int:
-        # for zip.ZipFile, read_stata, to_stata
-        ...
-
-
-class ReadBuffer(BaseBuffer, Protocol[AnyStr_cov]):
-    def read(self, __n: int | None = ...) -> AnyStr_cov:
-        # for BytesIOWrapper, gzip.GzipFile, bz2.BZ2File
-        ...
-
-
-class WriteBuffer(BaseBuffer, Protocol[AnyStr_con]):
-    def write(self, __b: AnyStr_con) -> Any:
-        # for gzip.GzipFile, bz2.BZ2File
-        ...
-
-    def flush(self) -> Any:
-        # for gzip.GzipFile, bz2.BZ2File
-        ...
-
-
-class ReadPickleBuffer(ReadBuffer[bytes], Protocol):
-    def readline(self) -> AnyStr_cov:
-        ...
-
-
-class WriteExcelBuffer(WriteBuffer[bytes], Protocol):
-    def truncate(self, size: int | None = ...) -> int:
-        ...
-
-
-class ReadCsvBuffer(ReadBuffer[AnyStr_cov], Protocol):
-    def __iter__(self) -> Iterator[AnyStr_cov]:
-        # for engine=python
-        ...
-
-    def readline(self) -> AnyStr_cov:
-        # for engine=python
-        ...
-
-    @property
-    def closed(self) -> bool:
-        # for enine=pyarrow
-        ...
-
-
 FilePath = Union[str, "PathLike[str]"]
 
 # for arbitrary kwargs passed during reading/writing files
@@ -285,9 +217,9 @@ StorageOptions = Optional[Dict[str, Any]]
 # compression keywords and compression
 CompressionDict = Dict[str, Any]
 CompressionOptions = Optional[
-    Union[Literal["infer", "gzip", "bz2", "zip", "xz", "zstd"], CompressionDict]
+    CompressionDict # Union[Literal["infer", "gzip", "bz2", "zip", "xz", "zstd"],
 ]
-XMLParsers = Literal["lxml", "etree"]
+#XMLParsers = Literal["lxml", "etree"]
 
 
 # types in DataFrameFormatter
@@ -301,7 +233,7 @@ ColspaceArgType = Union[
 ]
 
 # Arguments for fillna()
-FillnaOptions = Literal["backfill", "bfill", "ffill", "pad"]
+#FillnaOptions = Literal["backfill", "bfill", "ffill", "pad"]
 
 # internals
 Manager = Union[
@@ -332,7 +264,7 @@ else:
     TakeIndexer = Any
 
 # Windowing rank methods
-WindowingRankType = Literal["average", "min", "max"]
+#WindowingRankType = Literal["average", "min", "max"]
 
 # read_csv engines
-CSVEngine = Literal["c", "python", "pyarrow", "python-fwf"]
+#CSVEngine = Literal["c", "python", "pyarrow", "python-fwf"]
